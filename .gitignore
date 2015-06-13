@@ -1,0 +1,4 @@
+*.pyc
+__pycache__
+newenv
+.DS_Store

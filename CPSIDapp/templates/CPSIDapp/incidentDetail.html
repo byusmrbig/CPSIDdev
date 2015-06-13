@@ -1,0 +1,111 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>CPSID - Incident Detail Template</title>
+        <!-- Bootstrap -->
+        {% load staticfiles %}
+        <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet">
+        <link href="{% static "css/template.css" %}" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Project name</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="index">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
+
+{% if current_incident %}
+{% for Incident in current_incident %}
+<h1>{{ Incident.Title }}</h1>
+        <ul>
+                <li>Incident ID: {{ Incident.id }}</li>
+        <li>Title: {{ Incident.Title }}</li>
+                <li>Incident Details: {{ Incident.Description }}</li>
+        <li>Review Status: {{ Incident.ReviewStatus }}</li>
+        <li>Submitting User: {{ Incident.User }}</li>
+        <li>Managing Group: {{ Incident.Group }}</li>
+        {% endfor %}
+        {% if current_impact %}
+        <li>Impact</li>
+        {% for Impact in current_impact %}
+        <ul>
+            <li>Immediacy: {{ Impact.Immediacy }}</li>
+            <li>Details: {{ Impact.Details }}</li>
+            <li>Recovery Time: {{ Impact.RecoveryTime }}</li>
+            <li>Financial Impact: ${{ Impact.financialImpact }}</li>
+        {% endfor %}
+        {% else %}
+            <li>No Impact provided for this Incident; please create one via the admin portal.</li>
+        {% endif %}
+        {% for SeverityOfImpact in current_severityOfImpact %}
+                <li>Severity of Impact: {{ SeverityOfImpact.Severity }}</li>
+                {% endfor %}
+            {% for DirectImpact in current_directImpact %}
+            <li>Direct Impact</li>
+            <ul>
+                <li>{{ DirectImpact.DirectImpact }}</li>
+                <li>Details: {{ DirectImpact.Details }}</li>
+        {% endfor %}
+        {% for IndirectImpact in current_indirectImpact %}
+            </ul>
+            <li>Indirect Impact</li>
+            <ul>
+                <li>{{ IndirectImpact.IndirectImpact }}</li>
+                <li>Details: {{ IndirectImpact.Details }}</li>
+            </ul>
+        </ul>
+        {% endfor %}
+            {% for Means in current_means %}
+            <li>Means</li>
+            <ul>
+                <li>Type: {{ Means.Type }}</li>
+                <li>Details: {{ Means.Details }}</li>
+            </ul>
+            {% endfor %}
+            {% for Source in current_source %}
+            <li>Source</li>
+            <ul>
+                <li>Type: {{ Source.Type }}</li>
+                <li>Details: {{ Source.Details }}</li>
+            </ul>
+            {% endfor %}
+            {% for Victim in current_victim %}
+            <li>Victim</li>
+            <ul>
+                <li>Type: {{ Victim.Type }}</li>
+                <li>Details: {{Victim.Details}}</li>
+            </ul>
+            {% endfor %}
+            {% for VictimSector in current_victimSector %}
+            <li>Victim Sector</li>
+            <ul>    
+                <li>Sector: {{ VictimSector.Sector }}</li>
+                <li>Details: {{ VictimSector.Details }}</li>
+            </ul>
+            {% endfor %}
+                </ul>
+{% else %}
+        <p>No incidents are available.</p>
+{% endif %}

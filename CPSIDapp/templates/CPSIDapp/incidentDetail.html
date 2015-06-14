@@ -30,82 +30,94 @@
                 </div><!--/.nav-collapse -->
             </div>
         </nav>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
-
-{% if current_incident %}
-{% for Incident in current_incident %}
-<h1>{{ Incident.Title }}</h1>
-        <ul>
+        {% for Incident in current_incident %}
+            <h1>{{ Incident.Title }}</h1>
+            <ul>
                 <li>Incident ID: {{ Incident.id }}</li>
-        <li>Title: {{ Incident.Title }}</li>
+                <li>Title: {{ Incident.Title }}</li>
                 <li>Incident Details: {{ Incident.Description }}</li>
-        <li>Review Status: {{ Incident.ReviewStatus }}</li>
-        <li>Submitting User: {{ Incident.User }}</li>
-        <li>Managing Group: {{ Incident.Group }}</li>
-        {% endfor %}
-        {% if current_impact %}
-        <li>Impact</li>
-        {% for Impact in current_impact %}
-        <ul>
-            <li>Immediacy: {{ Impact.Immediacy }}</li>
-            <li>Details: {{ Impact.Details }}</li>
-            <li>Recovery Time: {{ Impact.RecoveryTime }}</li>
-            <li>Financial Impact: ${{ Impact.financialImpact }}</li>
-        {% endfor %}
-        {% else %}
-            <li>No Impact provided for this Incident; please create one via the admin portal.</li>
-        {% endif %}
-        {% for SeverityOfImpact in current_severityOfImpact %}
-                <li>Severity of Impact: {{ SeverityOfImpact.Severity }}</li>
-                {% endfor %}
-            {% for DirectImpact in current_directImpact %}
-            <li>Direct Impact</li>
-            <ul>
-                <li>{{ DirectImpact.DirectImpact }}</li>
-                <li>Details: {{ DirectImpact.Details }}</li>
-        {% endfor %}
-        {% for IndirectImpact in current_indirectImpact %}
-            </ul>
-            <li>Indirect Impact</li>
-            <ul>
-                <li>{{ IndirectImpact.IndirectImpact }}</li>
-                <li>Details: {{ IndirectImpact.Details }}</li>
-            </ul>
-        </ul>
-        {% endfor %}
-            {% for Means in current_means %}
-            <li>Means</li>
-            <ul>
-                <li>Type: {{ Means.Type }}</li>
-                <li>Details: {{ Means.Details }}</li>
-            </ul>
-            {% endfor %}
-            {% for Source in current_source %}
-            <li>Source</li>
-            <ul>
-                <li>Type: {{ Source.Type }}</li>
-                <li>Details: {{ Source.Details }}</li>
-            </ul>
-            {% endfor %}
-            {% for Victim in current_victim %}
-            <li>Victim</li>
-            <ul>
-                <li>Type: {{ Victim.Type }}</li>
-                <li>Details: {{Victim.Details}}</li>
-            </ul>
-            {% endfor %}
-            {% for VictimSector in current_victimSector %}
-            <li>Victim Sector</li>
-            <ul>    
-                <li>Sector: {{ VictimSector.Sector }}</li>
-                <li>Details: {{ VictimSector.Details }}</li>
-            </ul>
-            {% endfor %}
+                <li>Review Status: {{ Incident.ReviewStatus }}</li>
+                <li>Submitting User: {{ Incident.User }}</li>
+                <li>Managing Group: {{ Incident.Group }}</li>
+                {% if current_impact %}
+                <li>Impact</li>
+                {% endif %}
+                {% for Impact in current_impact %}
+                <ul>
+                    <li>Immediacy: {{ Impact.Immediacy }}</li>
+                    <li>Details: {{ Impact.Details }}</li>
+                    <li>Recovery Time: {{ Impact.RecoveryTime }}</li>
+                    <li>Financial Impact: ${{ Impact.financialImpact }}</li>
+                    {% for SeverityOfImpact in current_severityOfImpact %}
+                    <li>Severity of Impact: {{ SeverityOfImpact.Severity }}</li>
+                    {% empty %}
+                    <li>No Severity Of Impact provided for this Incident; please create one via the admin portal.</li>
+                    {% endfor %}
+                    {% for DirectImpact in current_directImpact %}
+                    <li>Direct Impact</li>
+                        <ul>
+                            <li>{{ DirectImpact.DirectImpact }}</li>
+                            <li>Details: {{ DirectImpact.Details }}</li>
+                        </ul>
+                    {% empty %}
+                    <li>No Direct Impact provided for this Incident; please create one via the admin portal.</li>
+                    {% endfor %}
+                    {% for IndirectImpact in current_indirectImpact %}
+                    <li>Indirect Impact</li>
+                    <ul>
+                        <li>{{ IndirectImpact.IndirectImpact }}</li>
+                        <li>Details: {{ IndirectImpact.Details }}</li>
+                    </ul>
                 </ul>
-{% else %}
+                    {% empty %}
+                    <li>No Indirect Impact provided for this Incident; please create one via the admin portal.</li>
+                </ul>
+                    {% endfor %}
+                {% empty %}
+                    <li>No Impact provided for this Incident; please create one via the admin portal.</li>
+                {% endfor %}
+                {% for Means in current_means %}
+                <li>Means</li>
+                <ul>
+                    <li>Type: {{ Means.Type }}</li>
+                    <li>Details: {{ Means.Details }}</li>
+                </ul>
+                {% empty %}
+                <li>No Means provided for this Incident; please create one via the admin portal.</li>
+                {% endfor %}
+                {% for Source in current_source %}
+                <li>Source</li>
+                <ul>
+                    <li>Type: {{ Source.Type }}</li>
+                    <li>Details: {{ Source.Details }}</li>
+                </ul>
+                {% empty %}
+                <li>No Source provided for this Incident; please create one via the admin portal.</li>
+                {% endfor %}
+                {% for Victim in current_victim %}
+                <li>Victim</li>
+                <ul>
+                    <li>Type: {{ Victim.Type }}</li>
+                    <li>Details: {{Victim.Details}}</li>
+                </ul>
+                {% empty %}
+                <li>No Victim provided for this Incident; please create one via the admin portal.</li>
+                {% endfor %}
+                {% for VictimSector in current_victimSector %}
+                <li>Victim Sector</li>
+                <ul>
+                    <li>Sector: {{ VictimSector.Sector }}</li>
+                    <li>Details: {{ VictimSector.Details }}</li>
+                </ul>
+                {% empty %}
+                <li>No Victim Sector provided for this Incident; please create one via the admin portal.</li>
+                {% endfor %}
+            </ul>
+        {% empty %}
         <p>No incidents are available.</p>
-{% endif %}
+        {% endfor %}

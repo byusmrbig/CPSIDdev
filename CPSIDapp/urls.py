@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^[0-9]+/index$',views.index, name='index'),
 	url(r'^(?P<id>[0-9]+)/$', views.incidentDetail, name='incidentDetail'),
 	url(r'^test$', views.test, name='index'),
+    url(r'^admin/', include(admin.site.urls)),
 ]
 
